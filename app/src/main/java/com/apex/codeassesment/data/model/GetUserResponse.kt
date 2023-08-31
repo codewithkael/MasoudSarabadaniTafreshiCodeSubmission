@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @JsonClass(generateAdapter = true)
 data class GetUserResponse (
-    val response:List<User>
+    val results:List<User>
 ) : Parcelable

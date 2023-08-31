@@ -10,6 +10,6 @@ interface UsersDao {
 
     @GET("api")
     suspend fun getUsers(
-        @Query("results") number:Int
+        @Query("results") number:String
     ):GetUserResponse
 }

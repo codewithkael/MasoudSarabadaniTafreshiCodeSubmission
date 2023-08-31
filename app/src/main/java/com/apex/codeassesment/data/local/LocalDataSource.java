@@ -6,6 +6,8 @@ import com.squareup.moshi.Moshi;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 import javax.inject.Inject;
 
 // TODO (3 points): Convert to Kotlin
@@ -30,8 +32,7 @@ public class LocalDataSource {
         final JsonAdapter<User> jsonAdapter = moshi.adapter(User.class);
         try {
             // TODO (1 point): Address Android Studio warning
-            assert serializedUser != null;
-            final User user = jsonAdapter.fromJson(serializedUser);
+            final User user = jsonAdapter.fromJson(Objects.requireNonNull(serializedUser));
             return user == null ? User.Companion.createRandom() : user;
         } catch (Exception e) {
             e.printStackTrace();
