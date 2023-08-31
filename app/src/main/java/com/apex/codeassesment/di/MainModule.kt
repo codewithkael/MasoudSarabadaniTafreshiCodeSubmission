@@ -3,6 +3,7 @@ package com.apex.codeassesment.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.apex.codeassesment.data.local.PreferencesManager
+import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 
@@ -16,4 +17,7 @@ object MainModule {
 
   @Provides
   fun providePreferencesManager(): PreferencesManager = PreferencesManager()
+
+  @Provides
+  fun providesMoshi(): Moshi = Moshi.Builder().build()
 }
