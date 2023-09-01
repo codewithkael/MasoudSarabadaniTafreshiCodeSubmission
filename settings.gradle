@@ -2,7 +2,7 @@ pluginManagement {
     repositories {
 //        google()
 //        mavenCentral()
-//        gradlePluginPortal()
+        gradlePluginPortal()
         maven {
             url 'https://maven.google.com'
         }

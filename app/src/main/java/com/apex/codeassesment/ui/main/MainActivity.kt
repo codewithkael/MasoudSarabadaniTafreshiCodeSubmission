@@ -1,6 +1,5 @@
 package com.apex.codeassesment.ui.main
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
@@ -54,7 +53,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        sharedContext = this
+
+//        sharedContext = this
 
         (applicationContext as MainComponent.Injector).mainComponent.inject(this)
 
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(putExtra)
     }
 
-    companion object {
-        var sharedContext: Context? = null
-    }
+//    companion object {
+//        var sharedContext: Context? = null
+//    }
 }

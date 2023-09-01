@@ -39,6 +39,7 @@ android {
 }
 
 dependencies {
+    def mockk = "1.12.3"
 
     implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
@@ -61,5 +62,10 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-moshi:2.9.0'
+    androidTestImplementation 'androidx.test:core:1.5.0'
+    testImplementation "io.mockk:mockk:$mockk"
+    androidTestImplementation "io.mockk:mockk-android:$mockk"
 
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 }

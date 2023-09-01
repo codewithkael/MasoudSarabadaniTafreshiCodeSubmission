@@ -18,7 +18,7 @@ class DefaultUserRepository @Inject constructor(
 
     override suspend fun getUser(forceUpdate: Boolean): User {
         return if (forceUpdate) {
-            when(val user = remoteDataSource.loadUser()){
+            when(val user = remoteDataSource.loadUserFromRemote()){
                 is Response.Success -> {
                     localDataSource.saveUser(user.data)
                     user.data
@@ -35,7 +35,7 @@ class DefaultUserRepository @Inject constructor(
     }
 
     override suspend fun getUsers(): List<User> {
-        return when(val users = remoteDataSource.loadUserFromRemote()){
+        return when(val users = remoteDataSource.loadUsersFromRemote()){
             is Response.Success -> users.data
             is Response.Failure -> users.data
         }

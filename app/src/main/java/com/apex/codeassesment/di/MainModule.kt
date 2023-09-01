@@ -21,7 +21,7 @@ object MainModule {
     }
 
     @Provides
-    fun providePreferencesManager(): PreferencesManager = PreferencesManager()
+    fun providePreferencesManager(context: Context): PreferencesManager = PreferencesManager(context)
 
     @Provides
     fun providesMoshi(): Moshi = Moshi.Builder().build()

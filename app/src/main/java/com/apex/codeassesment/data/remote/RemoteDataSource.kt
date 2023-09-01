@@ -14,7 +14,7 @@ class RemoteDataSource @Inject constructor(
 //  fun LoadUser() = User.createRandom()
 
     //returns dummy user in case of any failure
-    suspend fun loadUser(): Response<User> {
+    suspend fun loadUserFromRemote(): Response<User> {
         return try {
             Success(usersDao.getUser().results.first())
         } catch (e: Exception) {
@@ -26,9 +26,9 @@ class RemoteDataSource @Inject constructor(
     // TODO (3 points): Load data from endpoint https://randomuser.me/api?results=10
     // TODO (Optional Bonus: 3 points): Handle succes and failure from endpoints
     //returns list of dummy users in case of failure
-    suspend fun loadUserFromRemote(): Response<List<User>> {
+    suspend fun loadUsersFromRemote(): Response<List<User>> {
         return try {
-            Success(usersDao.getUsers("10").results)
+            Success(usersDao.getUsers(10).results)
         } catch (e: Exception) {
             e.printStackTrace()
             Failure(loadUsers())
