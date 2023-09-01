@@ -13,4 +13,5 @@
     <string name="location_result_miles">[%f] miles</string>
     <string name="details_activity_main_image">details activity main image</string>
     <string name="user_from_intent_is_null">user from intent is null</string>
+    <string name="finished_loading_saved_user">finished loading saved user</string>
 </resources>

@@ -1,22 +1,18 @@
 package com.apex.codeassesment.ui.main
 
-import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.ListView
-import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.apex.codeassesment.R
-import com.apex.codeassesment.data.UserRepository
 import com.apex.codeassesment.data.model.User
+import com.apex.codeassesment.databinding.ActivityMainBinding
 import com.apex.codeassesment.di.MainComponent
-import com.apex.codeassesment.ui.details.DetailsActivityKt
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.apex.codeassesment.ui.main.MainViewEvents.*
+import com.apex.codeassesment.utils.navigateDetails
+import com.bumptech.glide.RequestManager
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 // TODO (5 points): Move calls to repository to Presenter or ViewModel.
@@ -28,85 +24,104 @@ import javax.inject.Inject
 //  Jetpack Compose.
 class MainActivity : AppCompatActivity() {
 
-    // TODO (2 points): Convert to view binding
-    private var userImageView: ImageView? = null
-    private var userNameTextView: TextView? = null
-    private var userEmailTextView: TextView? = null
-    private var seeDetailsButton: Button? = null
-    private var refreshUserButton: Button? = null
-    private var showUserListButton: Button? = null
-    private var userListView: ListView? = null
 
+    // TODO (2 points): Convert to view binding
+    private lateinit var views: ActivityMainBinding
     @Inject
-    lateinit var userRepository: UserRepository
+    lateinit var viewModel: MainViewModel
+    @Inject
+    lateinit var glide: RequestManager
+    private var arrayAdapter :ArrayAdapter<User>?=null
+
+
 
     private var randomUser: User = User()
         set(value) {
             // TODO (1 point): Use Glide to load images after getting the data from endpoints mentioned in RemoteDataSource
             // userImageView.setImageBitmap(refreshedUser.image)
-
-            userNameTextView!!.text = value.name!!.first
-            userEmailTextView!!.text = value.email
+            views.apply {
+                glide.load(value.picture?.large).into(mainImage)
+                mainName.text = value.name!!.first
+                mainEmail.text = value.email
+            }
             field = value
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-//        sharedContext = this
-
+        views = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(views.root)
         (applicationContext as MainComponent.Injector).mainComponent.inject(this)
+        subscribeObservers()
+        init()
+    }
 
-        val arrayAdapter = ArrayAdapter<User>(this, android.R.layout.simple_list_item_1)
-
-        userImageView = findViewById(R.id.main_image)
-        userNameTextView = findViewById(R.id.main_name)
-        userEmailTextView = findViewById(R.id.main_email)
-        seeDetailsButton = findViewById(R.id.main_see_details_button)
-        refreshUserButton = findViewById(R.id.main_refresh_button)
-        showUserListButton = findViewById(R.id.main_user_list_button)
-        userListView = findViewById(R.id.main_user_list)
-        userListView!!.adapter = arrayAdapter
-        userListView?.setOnItemClickListener { parent, _, position, _ ->
-            navigateDetails(
-                parent.getItemAtPosition(
-                    position
-                ) as User
-            )
-        }
-
-        randomUser = userRepository.getSavedUser()
-
-        seeDetailsButton!!.setOnClickListener { navigateDetails(randomUser) }
-
-        refreshUserButton!!.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                withContext(Dispatchers.Main) {
-                    randomUser = userRepository.getUser(true)
-                }
+    private fun init() {
+        viewModel.handle(MainViewActions.LoadSavedUser)
+        setUpRecyclerView()
+        views.apply {
+            mainSeeDetailsButton.setOnClickListener {
+                navigateDetails(randomUser)
+            }
+            mainRefreshButton.setOnClickListener {
+                viewModel.handle(MainViewActions.GetUser(true))
             }
         }
 
-        //kaeltodo move this to viewmodel layer
-        showUserListButton!!.setOnClickListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                val users = userRepository.getUsers()
-                withContext(Dispatchers.Main) {
-                    arrayAdapter.clear()
-                    arrayAdapter.addAll(users)
-                }
+    }
+
+    private fun subscribeObservers() {
+        viewModel.state.observe(this@MainActivity) { state ->
+            state?.currentUser?.let {
+                randomUser = it
+            }
+            state?.usersList?.let {
+                arrayAdapter?.clear()
+                arrayAdapter?.addAll(it)
+            }
+        }
+
+        lifecycleScope.launch {
+            viewModel.viewEvents.collect{ event ->
+                handleEachEvent(event)
+            }
+        }
+    }
+
+    private fun handleEachEvent(mainViewEvents: MainViewEvents){
+        when(mainViewEvents){
+            SavedUserLoaded -> {
+                Toast.makeText(this@MainActivity,
+                    getString(R.string.finished_loading_saved_user), Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun setUpRecyclerView() {
+        views.apply {
+            arrayAdapter = ArrayAdapter<User>(this@MainActivity, android.R.layout.simple_list_item_1)
+            mainUserList.adapter = arrayAdapter
+            mainUserList.setOnItemClickListener { parent, _, position, _ ->
+                navigateDetails(
+                    parent.getItemAtPosition(
+                        position
+                    ) as User
+                )
             }
 
+            mainUserListButton.setOnClickListener {
+                viewModel.handle(MainViewActions.GetUsers)
+            }
         }
     }
 
     // TODO (2 points): Convert to extenstion function.
-    private fun navigateDetails(user: User) {
-        val putExtra = Intent(this, DetailsActivityKt::class.java).putExtra("saved-user-key", user)
-        startActivity(putExtra)
-    }
+//    private fun navigateDetails(user: User) {
+//        val putExtra = Intent(this, DetailsActivityKt::class.java).putExtra("saved-user-key", user)
+//        startActivity(putExtra)
+//    }
 
+    //big mistake to store context as companion object,use application context instead
 //    companion object {
 //        var sharedContext: Context? = null
 //    }

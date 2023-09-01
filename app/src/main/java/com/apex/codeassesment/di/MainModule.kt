@@ -6,6 +6,7 @@ import com.apex.codeassesment.data.DefaultUserRepository
 import com.apex.codeassesment.data.UserRepository
 import com.apex.codeassesment.data.local.PreferencesManager
 import com.apex.codeassesment.data.remote.UsersDao
+import com.apex.codeassesment.ui.main.MainViewModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -49,5 +50,9 @@ object MainModule {
     @Provides
     fun provideFusedProvider(context: Context) : FusedLocationProviderClient =
         LocationServices.getFusedLocationProviderClient(context)
+
+    @Provides
+    fun providesMainViewModel(userRepository: UserRepository): MainViewModel =
+        MainViewModel(userRepository)
 
 }
