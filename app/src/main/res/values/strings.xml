@@ -11,4 +11,6 @@
     <string name="location_random_user">Location of random user: (%1$s, %2$s)</string>
     <string name="location_phone">Location of this phone: (%1$s, %2$s)</string>
     <string name="location_result_miles">[%f] miles</string>
+    <string name="details_activity_main_image">details activity main image</string>
+    <string name="user_from_intent_is_null">user from intent is null</string>
 </resources>

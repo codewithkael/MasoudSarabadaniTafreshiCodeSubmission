@@ -27,7 +27,7 @@ data class User(
     fun createRandom(): User {
       return User(
         name = Name(first = randomString(), last = randomString()),
-        location = Location(coordinates = Coordinates(randomDouble().toString(), randomDouble().toString())),
+        location = Location(coordinates = Coordinates(randomDouble(), randomDouble())),
         email = randomString() + "@gmail.com",
         dob = Dob(age = 25)
       )

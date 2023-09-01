@@ -12,7 +12,7 @@ import com.apex.codeassesment.R
 import com.apex.codeassesment.data.UserRepository
 import com.apex.codeassesment.data.model.User
 import com.apex.codeassesment.di.MainComponent
-import com.apex.codeassesment.ui.details.DetailsActivity
+import com.apex.codeassesment.ui.details.DetailsActivityKt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -103,7 +103,7 @@ class MainActivity : AppCompatActivity() {
 
     // TODO (2 points): Convert to extenstion function.
     private fun navigateDetails(user: User) {
-        val putExtra = Intent(this, DetailsActivity::class.java).putExtra("saved-user-key", user)
+        val putExtra = Intent(this, DetailsActivityKt::class.java).putExtra("saved-user-key", user)
         startActivity(putExtra)
     }
 

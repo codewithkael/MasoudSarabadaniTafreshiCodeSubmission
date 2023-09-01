@@ -6,6 +6,10 @@ import com.apex.codeassesment.data.DefaultUserRepository
 import com.apex.codeassesment.data.UserRepository
 import com.apex.codeassesment.data.local.PreferencesManager
 import com.apex.codeassesment.data.remote.UsersDao
+import com.bumptech.glide.Glide
+import com.bumptech.glide.RequestManager
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -38,5 +42,12 @@ object MainModule {
     @Provides
     fun provideUserRepository(userRepository: DefaultUserRepository): UserRepository =
         userRepository
+
+    @Provides
+    fun providesGlide(context: Context): RequestManager = Glide.with(context)
+
+    @Provides
+    fun provideFusedProvider(context: Context) : FusedLocationProviderClient =
+        LocationServices.getFusedLocationProviderClient(context)
 
 }
