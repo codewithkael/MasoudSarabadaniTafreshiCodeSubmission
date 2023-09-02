@@ -40,7 +40,7 @@ class MainViewModel(
     private fun handleGetUsers() {
         viewModelScope.launch {
             val users = userRepository.getUsers()
-            _state.postValue(getCurrentState().copy(usersList = users))
+            _state.value = getCurrentState().copy(usersList = users)
         }
     }
 
@@ -53,7 +53,7 @@ class MainViewModel(
     private fun handleGetUser(isForce:Boolean){
         viewModelScope.launch {
            val user = userRepository.getUser(isForce)
-            _state.postValue(getCurrentState().copy(currentUser = user))
+            _state.value = getCurrentState().copy(currentUser = user)
         }
     }
 }
