@@ -2,7 +2,6 @@ package com.apex.codeassesment.ui.details
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.apex.codeassesment.R
@@ -56,7 +55,6 @@ class DetailsActivityKt : AppCompatActivity() {
     }
 
     private fun navigateLocation(coordinates: Coordinates) {
-        Log.d("TAG", "navigateLocation: $coordinates")
         startActivity(Intent(this, LocationActivity::class.java).apply {
             putExtra(
                 "user-latitude-key", coordinates.latitude

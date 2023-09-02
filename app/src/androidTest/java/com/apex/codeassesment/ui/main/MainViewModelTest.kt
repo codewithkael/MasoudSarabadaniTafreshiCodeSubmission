@@ -1,4 +1,3 @@
-import android.util.Log
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.apex.codeassesment.data.UserRepository
 import com.apex.codeassesment.data.model.User
@@ -69,7 +68,6 @@ class MainViewModelTest {
         delay(500)
 
         val state = viewModel.state.value
-        Log.d("TAG", "testHandleGetUsers: $state")
         assertEquals(users, state?.usersList)
     }
 }
