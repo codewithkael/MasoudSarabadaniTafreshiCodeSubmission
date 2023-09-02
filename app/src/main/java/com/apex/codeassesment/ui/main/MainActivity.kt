@@ -1,15 +1,15 @@
 package com.apex.codeassesment.ui.main
 
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.apex.codeassesment.R
 import com.apex.codeassesment.data.model.User
 import com.apex.codeassesment.databinding.ActivityMainBinding
 import com.apex.codeassesment.di.MainComponent
-import com.apex.codeassesment.ui.main.MainViewEvents.*
+import com.apex.codeassesment.ui.main.MainViewEvents.SavedUserLoaded
 import com.apex.codeassesment.utils.navigateDetails
 import com.bumptech.glide.RequestManager
 import kotlinx.coroutines.launch
@@ -22,23 +22,23 @@ import javax.inject.Inject
 // TODO (3 points): Add tests
 // TODO (Optional Bonus 10 points): Make a copy of this activity with different name and convert the current layout it is using in
 //  Jetpack Compose.
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainRecyclerViewAdapter.Listener {
 
 
     // TODO (2 points): Convert to view binding
     private lateinit var views: ActivityMainBinding
+
     @Inject
     lateinit var viewModel: MainViewModel
+
     @Inject
     lateinit var glide: RequestManager
-    private var arrayAdapter :ArrayAdapter<User>?=null
-
+    private lateinit var mainRecyclerAdapter: MainRecyclerViewAdapter
 
 
     private var randomUser: User = User()
         set(value) {
             // TODO (1 point): Use Glide to load images after getting the data from endpoints mentioned in RemoteDataSource
-            // userImageView.setImageBitmap(refreshedUser.image)
             views.apply {
                 glide.load(value.picture?.large).into(mainImage)
                 mainName.text = value.name!!.first
@@ -52,8 +52,9 @@ class MainActivity : AppCompatActivity() {
         views = ActivityMainBinding.inflate(layoutInflater)
         setContentView(views.root)
         (applicationContext as MainComponent.Injector).mainComponent.inject(this)
-        subscribeObservers()
+
         init()
+        subscribeObservers()
     }
 
     private fun init() {
@@ -76,39 +77,34 @@ class MainActivity : AppCompatActivity() {
                 randomUser = it
             }
             state?.usersList?.let {
-                arrayAdapter?.clear()
-                arrayAdapter?.addAll(it)
+                mainRecyclerAdapter.setUserList(it)
             }
         }
 
         lifecycleScope.launch {
-            viewModel.viewEvents.collect{ event ->
+            viewModel.viewEvents.collect { event ->
                 handleEachEvent(event)
             }
         }
     }
 
-    private fun handleEachEvent(mainViewEvents: MainViewEvents){
-        when(mainViewEvents){
+    private fun handleEachEvent(mainViewEvents: MainViewEvents) {
+        when (mainViewEvents) {
             SavedUserLoaded -> {
-                Toast.makeText(this@MainActivity,
-                    getString(R.string.finished_loading_saved_user), Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@MainActivity,
+                    getString(R.string.finished_loading_saved_user), Toast.LENGTH_LONG
+                ).show()
             }
         }
     }
 
     private fun setUpRecyclerView() {
         views.apply {
-            arrayAdapter = ArrayAdapter<User>(this@MainActivity, android.R.layout.simple_list_item_1)
-            mainUserList.adapter = arrayAdapter
-            mainUserList.setOnItemClickListener { parent, _, position, _ ->
-                navigateDetails(
-                    parent.getItemAtPosition(
-                        position
-                    ) as User
-                )
-            }
-
+            mainRecyclerAdapter = MainRecyclerViewAdapter(glide)
+            mainRecyclerAdapter.setListener(this@MainActivity)
+            mainUserListRecyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
+            mainUserListRecyclerView.adapter = mainRecyclerAdapter
             mainUserListButton.setOnClickListener {
                 viewModel.handle(MainViewActions.GetUsers)
             }
@@ -116,13 +112,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     // TODO (2 points): Convert to extenstion function.
-//    private fun navigateDetails(user: User) {
-//        val putExtra = Intent(this, DetailsActivityKt::class.java).putExtra("saved-user-key", user)
-//        startActivity(putExtra)
-//    }
+    override fun onUserClicked(user: User) {
+        navigateDetails(user)
+    }
 
-    //big mistake to store context as companion object,use application context instead
-//    companion object {
-//        var sharedContext: Context? = null
-//    }
+
 }

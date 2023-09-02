@@ -1,135 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:tools="http://schemas.android.com/tools"
-  android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:padding="16dp"
-  tools:context=".ui.main.MainActivity">
-
-  <!-- TODO (2 points): Convert to ConstraintLayout -->
-  <!-- TODO (1 point): Address Android Studio warnings -->
-
-  <RelativeLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".ui.main.MainActivity">
 
-    <TextView
-      android:id="@+id/main_title"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/my_random_user"
-      android:textAppearance="?textAppearanceHeadline4" />
+    <!-- TODO (2 points): Convert to ConstraintLayout -->
+    <!-- TODO (1 point): Address Android Studio warnings -->
 
-    <LinearLayout
-      android:id="@+id/main_selected_card"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/main_title"
-      android:layout_marginTop="8dp">
-
-      <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-          android:id="@+id/main_image"
-          android:layout_width="100dp"
-          android:layout_height="100dp"
-          android:background="#33aaaaaa" />
-
-      </FrameLayout>
-
-      <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/main_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/my_random_user"
+            android:textAppearance="?textAppearanceHeadline4"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
-
-          <TextView
-            android:id="@+id/main_name_label"
-            android:layout_width="wrap_content"
+            android:id="@+id/main_selected_card"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Name:"
-            android:textAppearance="?textAppearanceBody2"
-            android:textStyle="bold" />
+            android:layout_below="@id/main_title"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/main_title">
 
-          <TextView
-            android:id="@+id/main_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAppearance="?textAppearanceBody2"
-            tools:text="Jon" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/main_image"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="#33aaaaaa"
+                    android:contentDescription="@string/random_user_profile_image" />
 
-        <LinearLayout
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content">
+            </FrameLayout>
 
-          <TextView
-            android:id="@+id/main_email_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Email:"
-            android:textAppearance="?textAppearanceBody2"
-            android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-          <TextView
-            android:id="@+id/main_email"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:textAppearance="?textAppearanceBody2"
-            tools:text="robert@test.com" />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/main_name_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/name"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/main_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textAppearance="?textAppearanceBody2"
+                        tools:text="Jon" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/main_email_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/email"
+                        android:textAppearance="?textAppearanceBody2"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/main_email"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:textAppearance="?textAppearanceBody2"
+                        tools:text="robert@test.com" />
+
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/main_see_details_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/view_details" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
         <Button
-          android:id="@+id/main_see_details_button"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:text="@string/view_details" />
+            android:id="@+id/main_refresh_button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:text="@string/refresh_random_user"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_selected_card" />
 
-      </LinearLayout>
+        <View
+            android:id="@+id/main_divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#11111111"
+            app:layout_constraintTop_toBottomOf="@id/main_refresh_button" />
 
-    </LinearLayout>
+        <Button
+            android:id="@+id/main_user_list_button"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/main_divider"
+            android:text="@string/show_10_users"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_divider" />
 
-    <Button
-      android:id="@+id/main_refresh_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/main_selected_card"
-      android:text="Refresh random user" />
+        <!-- TODO (5 points): Convert to RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainUserListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/main_user_list_button"
+            tools:listitem="@layout/item_main_recycler_view" />
+        <!--        <ListView-->
+        <!--            android:id="@+id/main_user_list"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_marginTop="8dp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/main_user_list_button" />-->
 
-    <View
-      android:id="@+id/main_divider"
-      android:layout_width="match_parent"
-      android:layout_height="2dp"
-      android:layout_below="@id/main_refresh_button"
-      android:layout_marginTop="8dp"
-      android:layout_marginBottom="8dp"
-      android:background="#11111111" />
-
-    <Button
-      android:id="@+id/main_user_list_button"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/main_divider"
-      android:text="Show 10 users" />
-
-    <!-- TODO (5 points): Convert to RecyclerView -->
-    <ListView
-      android:id="@+id/main_user_list"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_below="@id/main_user_list_button"
-      android:layout_marginTop="8dp" />
-
-  </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

@@ -10,8 +10,16 @@
     <string name="calculate_distance_button">Calculate distance</string>
     <string name="location_random_user">Location of random user: (%1$s, %2$s)</string>
     <string name="location_phone">Location of this phone: (%1$s, %2$s)</string>
+    <string name="title_location">%1$s, %2$s</string>
+    <string name="title_name">%1$s %2$s</string>
+    <string name="title_age">%1$s years old</string>
     <string name="location_result_miles">[%f] miles</string>
     <string name="details_activity_main_image">details activity main image</string>
     <string name="user_from_intent_is_null">user from intent is null</string>
     <string name="finished_loading_saved_user">finished loading saved user</string>
+    <string name="random_user_profile_image">random user profile image</string>
+    <string name="refresh_random_user">Refresh random user</string>
+    <string name="name">Name:</string>
+    <string name="email">Email:</string>
+    <string name="show_10_users">Show 10 users</string>
 </resources>
